@@ -5,6 +5,7 @@ COPY ../eureka-server ./eureka-server
 RUN mvn -f eureka-server/pom.xml clean package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
+RUN apk add --no-cache curl
 WORKDIR /app
 COPY --from=builder /build/eureka-server/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]

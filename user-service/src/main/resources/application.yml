@@ -5,6 +5,4 @@ spring:
     import: "configserver:"
   cloud:
     config:
-      discovery:
-        enabled: true
-        service-id: config-server
+      uri: http://config-server:8888

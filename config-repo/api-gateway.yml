@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8091
 
 eureka:
   client:
@@ -26,4 +26,4 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8081/realms/cloud-shop-realm
+          issuer-uri: http://keycloak:8080/realms/cloud-shop-realm
