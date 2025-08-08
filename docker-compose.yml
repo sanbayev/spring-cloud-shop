@@ -32,6 +32,7 @@ services:
       - postgres
     networks:
       - app-net
+      - app-internal-net
 
   eureka:
     build:

@@ -24,3 +24,6 @@ spring:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
+
+keycloak:
+  userinfo-uri: http://keycloak:8080/realms/cloud-shop-realm/protocol/openid-connect/userinfo
