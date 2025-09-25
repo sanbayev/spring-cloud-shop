@@ -93,6 +93,22 @@ services:
     networks:
       - app-internal-net
 
+  product-service:
+    build:
+      context: .
+      dockerfile: product-service/Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://product-db:5432/productdb
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      config-server:
+        condition: service_healthy
+      product-db:
+        condition: service_healthy
+    networks:
+      - app-internal-net
+
   user-db:
     image: postgres:13
     container_name: user-db
@@ -111,8 +127,30 @@ services:
     volumes:
       - user-db-data:/var/lib/postgresql/data
     networks:
-      - app-net
       - app-internal-net
+      - app-net
+
+  product-db:
+    image: postgres:13
+    container_name: product-db
+    restart: always
+    environment:
+      POSTGRES_DB: productdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U user" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5434:5432"
+    volumes:
+      - product-db-data:/var/lib/postgresql/data
+    networks:
+      - app-internal-net
+      - app-net
+
 
 
 networks:
@@ -123,3 +161,4 @@ networks:
 volumes:
   keycloak-db-data:
   user-db-data:
+  product-db-data:
